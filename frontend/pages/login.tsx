@@ -2,12 +2,7 @@ import Head from 'next/head';
 import { MouseEventHandler, useState } from 'react';
 import { useRouter } from 'next/router';
 import { API_URL } from '../consts';
-
-type FetchLoginType = {
-  token?: string;
-  user?: { email: string; id: string };
-  error?: string;
-};
+import { FetchType } from '../src/types';
 
 export default function LogIn() {
   const router = useRouter();
@@ -26,7 +21,7 @@ export default function LogIn() {
         body: JSON.stringify({ email, password }),
       })
         .then((res) => res.json())
-        .then((res: FetchLoginType) => {
+        .then((res: FetchType) => {
           if (res.error) {
             setError(res.error);
           }
@@ -34,6 +29,18 @@ export default function LogIn() {
             localStorage.setItem('x-auth-token', res.token);
             localStorage.setItem('user-email', res?.user?.email as string);
             localStorage.setItem('user-id', res?.user?.id as string);
+            localStorage.setItem(
+              'user-firstname',
+              res?.user?.firstName as string,
+            );
+            localStorage.setItem(
+              'user-lastname',
+              res?.user?.lastName as string,
+            );
+            localStorage.setItem(
+              'user-direction',
+              res?.user?.direction as string,
+            );
             router.push('/');
           }
         });

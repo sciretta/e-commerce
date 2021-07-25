@@ -5,6 +5,7 @@ import { _LeanDocument } from 'mongoose';
 import { UserInterface } from '../models/models-types';
 import User from '../models/user';
 import { JWT_SECRET } from '../consts';
+import user from '../models/user';
 
 // @desc    Create User.
 // @route   POST /user/signin
@@ -14,7 +15,7 @@ export const createUser = async (
   req: Request<unknown, unknown, UserInterface>,
   res: Response<{ error: string } | { userCreated: UserInterface }>,
 ) => {
-  const { email, password } = req.body;
+  const { email, password, direction, firstName, lastName } = req.body;
 
   //validations
   if (!email || !password)
@@ -46,6 +47,9 @@ export const createUser = async (
     userCreated = await User.create({
       email,
       password: passwordHash,
+      direction,
+      firstName,
+      lastName,
     });
   } catch (err) {
     return res.status(500).json({
@@ -55,9 +59,12 @@ export const createUser = async (
 
   console.log({ userCreated });
 
-  return res
-    .status(200)
-    .json({ userCreated: { email: userCreated.email, id: userCreated._id } });
+  return res.status(200).json({
+    userCreated: {
+      email: userCreated.email,
+      id: userCreated._id,
+    },
+  });
 };
 
 // @desc    Login User.
@@ -95,6 +102,38 @@ export const loginUser = async (
     user: {
       id: user._id,
       email: user.email,
+      direction: user.direction,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    },
+  });
+};
+
+// @desc    Get User Data.
+// @route   GET /user
+// @access  Public
+
+export const getUser = async (
+  req: Request<unknown, unknown, UserInterface>,
+  res: Response<{ error: string } | { user: UserInterface }>,
+) => {
+  const id = req.headers['user-id'];
+
+  let user: UserInterface | null;
+  try {
+    user = await User.findById(id);
+    if (!user) return res.json({ error: 'User not found.' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+  return res.status(200).json({
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      direction: user.direction,
+      role: user.role,
     },
   });
 };

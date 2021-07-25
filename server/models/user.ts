@@ -1,9 +1,22 @@
 import { Schema, model } from 'mongoose';
-import { UserInterface, UserTypes } from './models-types';
+import { UserInterface, UserRole } from './models-types';
 
 const userSchema = new Schema<UserInterface>({
-  type: { type: String, default: UserTypes.User },
+  role: { type: String, default: UserRole.User },
   email: { type: String, trim: true, required: true },
+  firstName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  direction: {
+    type: String,
+  },
   password: { type: String, required: true },
 });
 

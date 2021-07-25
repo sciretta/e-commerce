@@ -1,8 +1,8 @@
 import './database.connect';
 import express from 'express';
 import cors from 'cors';
-import { createUser, loginUser } from './controllers/usersController';
-// import { auth } from './middlewares/auth';
+import { createUser, loginUser, getUser } from './controllers/usersController';
+import { auth } from './middlewares/auth';
 
 const app = express();
 
@@ -11,6 +11,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.set('port', 4000);
+
+app.get('/user', auth, getUser);
 
 app.post('/user/login', loginUser);
 

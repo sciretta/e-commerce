@@ -1,11 +1,14 @@
-export enum UserTypes {
+export enum UserRole {
   User = 'USER',
   Admin = 'ADMIN',
 }
 
 export interface UserInterface {
   id?: string;
-  type?: UserTypes.Admin | UserTypes.User;
+  role?: UserRole.Admin | UserRole.User;
+  firstName?: string;
+  lastName?: string;
+  direction?: string;
   email?: string;
   password?: string;
 }
