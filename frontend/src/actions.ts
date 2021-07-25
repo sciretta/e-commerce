@@ -1,5 +1,5 @@
 import { API_URL } from '../consts';
-import { FetchType, ProductType } from './types';
+import { FetchType, ProductType, UserType } from './types';
 
 export const fetchProducts = (cb: (res: FetchType) => void): void => {
   fetch(`${API_URL}/products`, {
@@ -53,6 +53,24 @@ export const deleteProduct = (cb: (res: FetchType) => void, id: string) => {
       'x-auth-token': localStorage.getItem('x-auth-token') || '',
     },
     body: JSON.stringify({ id }),
+  })
+    .then((res) => res.json())
+    .then((res: FetchType) => cb(res));
+};
+
+export const updateUser = (
+  cb: (res: FetchType) => void,
+  data: { direction: string; firstName: string; lastName: string },
+) => {
+  fetch(`${API_URL}/user/edit`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-auth-token': localStorage.getItem('x-auth-token') || '',
+      'user-id': localStorage.getItem('user-id') || '',
+    },
+    body: JSON.stringify({ ...data }),
   })
     .then((res) => res.json())
     .then((res: FetchType) => cb(res));

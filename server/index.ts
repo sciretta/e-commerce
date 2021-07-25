@@ -1,7 +1,12 @@
 import './database.connect';
 import express from 'express';
 import cors from 'cors';
-import { createUser, loginUser, getUser } from './controllers/usersController';
+import {
+  createUser,
+  loginUser,
+  getUser,
+  editUser,
+} from './controllers/usersController';
 import { auth, authAdmin } from './middlewares/auth';
 import {
   createProduct,
@@ -22,6 +27,8 @@ app.get('/user', auth, getUser);
 app.post('/user/login', loginUser);
 
 app.post('/user/signin', createUser);
+
+app.put('/user/edit', auth, editUser);
 
 app.get('/products', getProducts);
 

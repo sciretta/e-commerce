@@ -50,6 +50,7 @@ export default function CreateProductCard({
       className="m-10 w-80 h-2/3 max-w-sm p-5 rounded-md bg-blue-100 ">
       {image ? (
         <div className={`flex justify-center`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             style={{ maxHeight: 250 }}
             className={`rounded`}

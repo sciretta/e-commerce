@@ -5,6 +5,7 @@ import { useFetchUser, useManageCart } from '../src/hooks';
 import { MainViews, ProductType } from '../src/types';
 import ManagementView from '../src/views/ManagementView';
 import ProductsView from '../src/views/ProductsView';
+import UserView from '../src/views/UserView';
 
 export default function Index() {
   const router = useRouter();
@@ -44,7 +45,9 @@ export default function Index() {
                 <button
                   onClick={handleCartModal}
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 mr-10 ">
-                  <span className="text-2xl">🛒4</span>
+                  <span className="text-2xl">
+                    🛒{products?.reduce((acc, cur) => acc + cur.count, 0)}
+                  </span>
                 </button>
               </li>
               {user ? (
@@ -97,7 +100,11 @@ export default function Index() {
       </nav>
       <View currentView={view} addProduct={addProduct} />
       {showCartModal && (
-        <CartModal products={products} handleModal={handleCartModal} />
+        <CartModal
+          products={products}
+          handleModal={handleCartModal}
+          removeProduct={removeProduct}
+        />
       )}
     </>
   );
@@ -124,6 +131,14 @@ const View: React.FC<{
       <>
         {viewHeader}
         <ProductsView addProduct={addProduct} />
+      </>
+    );
+
+  if (MainViews.User === currentView)
+    return (
+      <>
+        {viewHeader}
+        <UserView />
       </>
     );
 

@@ -3,9 +3,11 @@ import { ProductCartType } from '../types';
 export default function CartModal({
   handleModal,
   products,
+  removeProduct,
 }: {
   handleModal: () => void;
   products: ProductCartType[];
+  removeProduct: (id: string) => void;
 }) {
   return (
     <>
@@ -25,6 +27,7 @@ export default function CartModal({
                   style={{ height: 210 }}
                   className="border-2 border-blue-100 rounded flex justify-between items-center mb-4 pr-20 pl-10">
                   <div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       style={{ maxHeight: 200 }}
                       className={`rounded`}
@@ -38,8 +41,18 @@ export default function CartModal({
                       In the cart: {p.count}
                     </h3>
                   </div>
+                  <button
+                    onClick={() => removeProduct(p.id)}
+                    className="bg-red-700 p-0  text-sm hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
+                    ×
+                  </button>
                 </div>
               ))}
+              {!products.length && (
+                <h3 className="text-xl flex justify-center font-semibold ">
+                  Empty
+                </h3>
+              )}
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

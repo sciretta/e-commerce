@@ -79,7 +79,7 @@ export const useFecthProducts = (
 };
 
 export const useManageCart = (): {
-  products: ProductCartType[] | undefined;
+  products: ProductCartType[];
   addProduct: (newProduct: ProductType) => void;
   removeProduct: (id: string) => void;
 } => {

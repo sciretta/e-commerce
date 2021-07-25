@@ -46,6 +46,7 @@ export default function ProductCard({
         </div>
       )}
       <div className={`flex justify-center`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           style={{ maxHeight: 350 }}
           className={`rounded`}
