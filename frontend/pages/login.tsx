@@ -1,17 +1,48 @@
 import Head from 'next/head';
 import { MouseEventHandler, useState } from 'react';
 import { useRouter } from 'next/router';
+import { API_URL } from '../consts';
+
+type FetchLoginType = {
+  token?: string;
+  user?: { email: string; id: string };
+  error?: string;
+};
 
 export default function LogIn() {
   const router = useRouter();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const onSubmitForm: MouseEventHandler<HTMLButtonElement> = (): void => {
-    console.log('submit', email, password);
-  };
+  const [error, setError] = useState<string>();
+
+  const onSubmitForm: MouseEventHandler<HTMLButtonElement> =
+    async (): Promise<void> => {
+      fetch(`${API_URL}/user/login`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then((res: FetchLoginType) => {
+          if (res.error) {
+            setError(res.error);
+          }
+          if (res.token) {
+            localStorage.setItem('x-auth-token', res.token);
+            localStorage.setItem('user-email', res?.user?.email as string);
+            localStorage.setItem('user-id', res?.user?.id as string);
+            router.push('/');
+          }
+        });
+    };
+
   const redirectSingin = (): void => {
     router.push('/signin');
   };
+
   return (
     <>
       <Head>
@@ -24,7 +55,7 @@ export default function LogIn() {
           <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
             Log in 🔐
           </h1>
-
+          {error ? <div className={`bg-red-400 rounded`}>{error}</div> : null}
           <div>
             <label htmlFor="email">Email</label>
             <input

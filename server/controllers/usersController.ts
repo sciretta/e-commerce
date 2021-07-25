@@ -60,7 +60,7 @@ export const createUser = async (
     .json({ userCreated: { email: userCreated.email, id: userCreated._id } });
 };
 
-// @desc    login User.
+// @desc    Login User.
 // @route   POST /user/login
 // @access  Public
 

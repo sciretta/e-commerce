@@ -1,5 +1,6 @@
 import './database.connect';
 import express from 'express';
+import cors from 'cors';
 import { createUser, loginUser } from './controllers/usersController';
 // import { auth } from './middlewares/auth';
 
@@ -7,6 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.set('port', 4000);
 

@@ -1,19 +1,48 @@
 import Head from 'next/head';
 import { MouseEventHandler, useState } from 'react';
 import { useRouter } from 'next/router';
+import { API_URL } from '../consts';
 
 export default function SignIn() {
   const router = useRouter();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [error, setError] = useState<string>();
 
-  const onSubmitForm: MouseEventHandler<HTMLButtonElement> = (): void => {
-    console.log('submit', { email, password, confirmPassword });
-  };
-  const redirectSingin = (): void => {
+  const onSubmitForm: MouseEventHandler<HTMLButtonElement> =
+    async (): Promise<void> => {
+      if (password !== confirmPassword) {
+        setError('password and confirm password doesnt match');
+        return;
+      }
+      fetch(`${API_URL}/user/signin`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then(
+          (res: {
+            userCreated?: { email: string; id: string };
+            error?: string;
+          }) => {
+            if (res.error) {
+              setError(res.error);
+              return;
+            }
+            redirectLogin();
+          },
+        );
+    };
+
+  const redirectLogin = (): void => {
     router.push('/login');
   };
+
   return (
     <>
       <Head>
@@ -26,6 +55,7 @@ export default function SignIn() {
           <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
             Sign in 🗝️
           </h1>
+          {error ? <div className={`bg-red-400 rounded`}>{error}</div> : null}
 
           <div>
             <label htmlFor="email">Email</label>
@@ -66,7 +96,7 @@ export default function SignIn() {
           </div>
           <div className="flex justify-center items-center mt-6">
             <button
-              onClick={redirectSingin}
+              onClick={redirectLogin}
               className={`bg-green py-2 px-4 text-sm text-blue-600 rounded  border-green focus:outline-none focus:border-green-dark`}>
               Login
             </button>
