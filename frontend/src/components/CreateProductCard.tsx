@@ -46,7 +46,7 @@ export default function CreateProductCard({
 
   return (
     <div
-      style={{ height: 600 }}
+      style={{ height: 630 }}
       className="m-10 w-80 h-2/3 max-w-sm p-5 rounded-md bg-blue-100 ">
       {image ? (
         <div className={`flex justify-center`}>

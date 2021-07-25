@@ -11,7 +11,7 @@ export default function ManagementView() {
       className={`flex m-20 flex-wrap justify-center`}>
       <CreateProductCard refetch={refetch} />
       {products?.map((p) => (
-        <ProductCard key={p.name} {...p} />
+        <ProductCard key={p.name} {...p} managementMode refetch={refetch} />
       ))}
     </div>
   );

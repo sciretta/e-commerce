@@ -3,7 +3,11 @@ import express from 'express';
 import cors from 'cors';
 import { createUser, loginUser, getUser } from './controllers/usersController';
 import { auth, authAdmin } from './middlewares/auth';
-import { createProduct, getProducts } from './controllers/productsControllers';
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+} from './controllers/productsControllers';
 
 const app = express();
 
@@ -22,6 +26,8 @@ app.post('/user/signin', createUser);
 app.get('/products', getProducts);
 
 app.post('/product/create', auth, authAdmin, createProduct);
+
+app.delete('/product/delete', auth, authAdmin, deleteProduct);
 
 app.listen(app.get('port'), () => {
   console.log(`Servidor inicializado en el puerto ${app.get('port')}.`);

@@ -88,8 +88,25 @@ export default function Index() {
 }
 
 const View: React.FC<{ currentView: string }> = ({ currentView }) => {
-  if (MainViews.Management === currentView) return <ManagementView />;
-  if (MainViews.Products === currentView) return <ProductsView />;
+  const viewHeader = (
+    <h1 className="text-3xl flex justify-center font-bold group-hover:text-purple-300 transition ease-out duration-300">
+      {currentView}
+    </h1>
+  );
+  if (MainViews.Management === currentView)
+    return (
+      <>
+        {viewHeader}
+        <ManagementView />
+      </>
+    );
+  if (MainViews.Products === currentView)
+    return (
+      <>
+        {viewHeader}
+        <ProductsView />
+      </>
+    );
 
   return <>no view selected</>;
 };

@@ -81,3 +81,32 @@ export const getProducts = async (
     })),
   });
 };
+
+// @desc    Delete Product.
+// @route   DELETE /product/delete
+// @access  Private
+
+export const deleteProduct = async (
+  req: Request<unknown, unknown, ProductInterface>,
+  res: Response<{ error: string } | { productDeleteId: string }>,
+) => {
+  const { id } = req.body;
+  if (!id) {
+    return res.status(400).json({
+      error: 'Product id is required',
+    });
+  }
+
+  let productDeleted;
+  try {
+    productDeleted = await Product.findByIdAndDelete(id);
+  } catch (err) {
+    return res.status(500).json({
+      error: err.message,
+    });
+  }
+
+  return res.status(200).json({
+    productDeleteId: productDeleted?._id,
+  });
+};

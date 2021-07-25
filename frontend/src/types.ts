@@ -8,6 +8,7 @@ export type UserType = {
 };
 
 export type ProductType = {
+  id: string;
   name: string;
   stock: number;
   price: number;

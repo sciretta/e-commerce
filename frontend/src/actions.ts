@@ -29,7 +29,7 @@ export const fetchUser = (cb: (res: FetchType) => void): void => {
 
 export const saveProduct = (
   cb: (res: FetchType) => void,
-  data: ProductType,
+  data: Omit<ProductType, 'id'>,
 ) => {
   fetch(`${API_URL}/product/create`, {
     method: 'POST',
@@ -39,6 +39,20 @@ export const saveProduct = (
       'x-auth-token': localStorage.getItem('x-auth-token') || '',
     },
     body: JSON.stringify({ ...data }),
+  })
+    .then((res) => res.json())
+    .then((res: FetchType) => cb(res));
+};
+
+export const deleteProduct = (cb: (res: FetchType) => void, id: string) => {
+  fetch(`${API_URL}/product/delete`, {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-auth-token': localStorage.getItem('x-auth-token') || '',
+    },
+    body: JSON.stringify({ id }),
   })
     .then((res) => res.json())
     .then((res: FetchType) => cb(res));
