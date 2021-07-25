@@ -9,10 +9,15 @@ export default function ProductCard({
   stock,
   managementMode,
   refetch,
-}: ProductType & { managementMode?: boolean; refetch?: () => void }) {
+  addProduct,
+}: ProductType & {
+  managementMode?: boolean;
+  refetch?: () => void;
+  addProduct?: (newProduct: ProductType) => void;
+}) {
   const handleDeleteProduct = (): void => {
     if (!refetch) return;
-    deleteProduct((res) => {
+    deleteProduct(() => {
       refetch();
     }, id);
   };
@@ -28,7 +33,18 @@ export default function ProductCard({
             ×
           </button>
         </div>
-      ) : null}
+      ) : (
+        <div className="flex justify-end mb-3">
+          <button
+            onClick={() => {
+              if (!addProduct) return;
+              addProduct({ id, image, price, stock, name });
+            }}
+            className="bg-green-700 p-0  text-sm hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
+            add to the cart 🛒
+          </button>
+        </div>
+      )}
       <div className={`flex justify-center`}>
         <img
           style={{ maxHeight: 350 }}

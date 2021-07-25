@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchProducts, fetchUser } from './actions';
-import { ProductType, UserType } from './types';
+import { ProductCartType, ProductType, UserType } from './types';
 
 export const useFetchUser = (
   dep: any[],
@@ -76,4 +76,38 @@ export const useFecthProducts = (
       });
     },
   };
+};
+
+export const useManageCart = (): {
+  products: ProductCartType[] | undefined;
+  addProduct: (newProduct: ProductType) => void;
+  removeProduct: (id: string) => void;
+} => {
+  const [products, setProducts] = useState<ProductCartType[]>([]);
+
+  const addProduct = (newProduct: ProductType): void => {
+    setProducts((prevProducts) => {
+      const productsIds = products.map((p) => p.id);
+      if (productsIds.includes(newProduct.id)) {
+        return [
+          ...prevProducts.map((p) => {
+            if (p.id === newProduct.id) {
+              return { ...p, count: p.count + 1 };
+            }
+            return { ...p };
+          }),
+        ];
+      }
+      return [...prevProducts, { ...newProduct, count: 1 }];
+    });
+  };
+
+  const removeProduct = (id: string): void => {
+    if (!products) {
+      return;
+    }
+    setProducts((prevProducts) => prevProducts?.filter((p) => p.id !== id));
+  };
+
+  return { products, addProduct, removeProduct };
 };

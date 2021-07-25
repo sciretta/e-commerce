@@ -1,16 +1,22 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useFetchUser } from '../src/hooks';
-import { MainViews } from '../src/types';
+import CartModal from '../src/components/CartModal';
+import { useFetchUser, useManageCart } from '../src/hooks';
+import { MainViews, ProductType } from '../src/types';
 import ManagementView from '../src/views/ManagementView';
 import ProductsView from '../src/views/ProductsView';
 
 export default function Index() {
   const router = useRouter();
   const [view, setView] = useState<string>(MainViews.Products);
+  const [showCartModal, setShowCartModal] = useState(false);
   const { error, user, refetch } = useFetchUser([]);
-  console.log({ error, user });
+  const { products, addProduct, removeProduct } = useManageCart();
+  console.log({ error, user, products });
 
+  const handleCartModal = (): void => {
+    setShowCartModal((prev) => !prev);
+  };
   const handleLogOut = (): void => {
     localStorage.clear();
     setView(MainViews.Products);
@@ -23,7 +29,7 @@ export default function Index() {
   return (
     <>
       <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-blue-900 mb-3">
-        <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
+        <div className="container px-4 mx-auto flex flex-wrap items-center justify-between h-20 ">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white">
               e-commerce test
@@ -34,6 +40,13 @@ export default function Index() {
             className={'lg:flex flex-grow items-center flex'}
             id="example-navbar-danger">
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+              <li className="nav-item">
+                <button
+                  onClick={handleCartModal}
+                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 mr-10 ">
+                  <span className="text-2xl">🛒4</span>
+                </button>
+              </li>
               {user ? (
                 <>
                   <li className="nav-item">
@@ -82,12 +95,18 @@ export default function Index() {
           </div>
         </div>
       </nav>
-      <View currentView={view} />
+      <View currentView={view} addProduct={addProduct} />
+      {showCartModal && (
+        <CartModal products={products} handleModal={handleCartModal} />
+      )}
     </>
   );
 }
 
-const View: React.FC<{ currentView: string }> = ({ currentView }) => {
+const View: React.FC<{
+  currentView: string;
+  addProduct: (newProduct: ProductType) => void;
+}> = ({ currentView, addProduct }) => {
   const viewHeader = (
     <h1 className="text-3xl flex justify-center font-bold group-hover:text-purple-300 transition ease-out duration-300">
       {currentView}
@@ -104,7 +123,7 @@ const View: React.FC<{ currentView: string }> = ({ currentView }) => {
     return (
       <>
         {viewHeader}
-        <ProductsView />
+        <ProductsView addProduct={addProduct} />
       </>
     );
 

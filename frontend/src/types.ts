@@ -27,3 +27,5 @@ export enum MainViews {
   Management = 'MANAGEMENT',
   User = 'USER',
 }
+
+export type ProductCartType = ProductType & { count: number };
