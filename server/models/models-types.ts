@@ -12,3 +12,11 @@ export interface UserInterface {
   email?: string;
   password?: string;
 }
+
+export interface ProductInterface {
+  id?: string;
+  name?: string;
+  price?: number;
+  stock?: number;
+  image?: string;
+}

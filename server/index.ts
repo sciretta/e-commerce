@@ -2,7 +2,8 @@ import './database.connect';
 import express from 'express';
 import cors from 'cors';
 import { createUser, loginUser, getUser } from './controllers/usersController';
-import { auth } from './middlewares/auth';
+import { auth, authAdmin } from './middlewares/auth';
+import { createProduct, getProducts } from './controllers/productsControllers';
 
 const app = express();
 
@@ -17,6 +18,10 @@ app.get('/user', auth, getUser);
 app.post('/user/login', loginUser);
 
 app.post('/user/signin', createUser);
+
+app.get('/products', getProducts);
+
+app.post('/product/create', auth, authAdmin, createProduct);
 
 app.listen(app.get('port'), () => {
   console.log(`Servidor inicializado en el puerto ${app.get('port')}.`);

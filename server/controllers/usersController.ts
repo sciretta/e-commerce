@@ -5,7 +5,6 @@ import { _LeanDocument } from 'mongoose';
 import { UserInterface } from '../models/models-types';
 import User from '../models/user';
 import { JWT_SECRET } from '../consts';
-import user from '../models/user';
 
 // @desc    Create User.
 // @route   POST /user/signin
@@ -18,7 +17,7 @@ export const createUser = async (
   const { email, password, direction, firstName, lastName } = req.body;
 
   //validations
-  if (!email || !password)
+  if (!email || !password || !direction || !firstName || !lastName)
     return res
       .status(400)
       .json({ error: 'Not all required fields have been entered.' });
@@ -111,7 +110,7 @@ export const loginUser = async (
 
 // @desc    Get User Data.
 // @route   GET /user
-// @access  Public
+// @access  Private
 
 export const getUser = async (
   req: Request<unknown, unknown, UserInterface>,
