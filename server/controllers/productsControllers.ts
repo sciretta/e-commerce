@@ -72,6 +72,12 @@ export const getProducts = async (
   const productsFound = await Product.find({});
 
   return res.status(200).json({
-    products: productsFound,
+    products: productsFound.map((p) => ({
+      id: p._id,
+      image: p.image,
+      stock: p.stock,
+      price: p.price,
+      name: p.name,
+    })),
   });
 };
