@@ -41,6 +41,6 @@ app.post('/purchase/new', auth, newPurchase);
 
 app.get('/purchases', auth, getPurchases);
 
-app.listen(app.get('port'), () => {
+app.listen(process.env.PORT || app.get('port'), () => {
   console.log(`Servidor inicializado en el puerto ${app.get('port')}.`);
 });
