@@ -9,6 +9,7 @@ export default function ProductsView({
 }) {
   const { error, products } = useFecthProducts([]);
 
+  console.log('product view', { error });
   return (
     <div
       style={{ minHeight: '80vh' }}

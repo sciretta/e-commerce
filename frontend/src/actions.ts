@@ -92,3 +92,17 @@ export const createPurchase = (
     .then((res) => res.json())
     .then((res: FetchType) => cb(res));
 };
+
+export const getPurchases = (cb: (res: FetchType) => void) => {
+  fetch(`${API_URL}/purchases`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-auth-token': localStorage.getItem('x-auth-token') || '',
+      'user-id': localStorage.getItem('user-id') || '',
+    },
+  })
+    .then((res) => res.json())
+    .then((res: FetchType) => cb(res));
+};

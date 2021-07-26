@@ -13,7 +13,6 @@ export default function Index() {
   const [showCartModal, setShowCartModal] = useState(false);
   const { error, user, refetch } = useFetchUser([]);
   const { products, addProduct, removeProduct } = useManageCart();
-  console.log({ error, user, products });
 
   const handleCartModal = (): void => {
     setShowCartModal((prev) => !prev);
@@ -23,6 +22,8 @@ export default function Index() {
     setView(MainViews.Products);
     refetch();
   };
+
+  console.log('index', { error });
 
   const redirectLogin = (): void => {
     router.push('/login');

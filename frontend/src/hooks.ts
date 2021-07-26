@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchProducts, fetchUser } from './actions';
-import { ProductCartType, ProductType, UserType } from './types';
+import { fetchProducts, fetchUser, getPurchases } from './actions';
+import { ProductCartType, ProductType, PurchaseType, UserType } from './types';
 
 export const useFetchUser = (
   dep: any[],
@@ -110,4 +110,17 @@ export const useManageCart = (): {
   };
 
   return { products, addProduct, removeProduct };
+};
+
+export const useGetPurchases = (): { purchases: PurchaseType[] } => {
+  const [purchases, setPurchases] = useState<PurchaseType[]>([]);
+
+  useEffect(() => {
+    getPurchases((res) => {
+      if (!res.purchases) return;
+      setPurchases(res.purchases);
+    });
+  }, []);
+
+  return { purchases };
 };

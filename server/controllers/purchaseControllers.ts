@@ -79,9 +79,35 @@ export const newPurchase = async (
     });
   }
 
-  console.log({ purchasedDone });
-
   return res.status(200).json({
     successPurchase: true,
+  });
+};
+
+// @desc    Get User Purchases.
+// @route   GET /purchases
+// @access  Privateexport
+export const getPurchases = async (
+  req: Request<unknown, unknown, PurchaseInterface>,
+  res: Response<{ error: string } | { purchases: PurchaseInterface[] }>,
+) => {
+  const userId = req.headers['user-id'] as string;
+
+  if (!userId)
+    return res.status(400).json({
+      error: 'User id was not provided',
+    });
+
+  let purchases;
+  try {
+    purchases = await Purchase.find({ userId });
+  } catch (err) {
+    return res.status(500).json({
+      error: err.message,
+    });
+  }
+
+  return res.status(200).json({
+    purchases,
   });
 };

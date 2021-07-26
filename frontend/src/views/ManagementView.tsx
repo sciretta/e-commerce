@@ -4,7 +4,6 @@ import { useFecthProducts } from '../hooks';
 
 export default function ManagementView() {
   const { error, products, refetch } = useFecthProducts([]);
-  console.log({ error, products });
   return (
     <div
       style={{ minHeight: '80vh' }}

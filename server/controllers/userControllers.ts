@@ -56,8 +56,6 @@ export const createUser = async (
     });
   }
 
-  console.log({ userCreated });
-
   return res.status(200).json({
     userCreated: {
       email: userCreated.email,

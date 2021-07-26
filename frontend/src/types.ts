@@ -21,6 +21,7 @@ export type FetchType = {
   products?: ProductType[];
   successPurchase?: boolean;
   error?: string;
+  purchases?: PurchaseType[];
 };
 
 export enum MainViews {
@@ -37,6 +38,7 @@ export type PurchaseProductType = {
 };
 
 export type PurchaseType = {
+  _id: string;
   userId: string;
   products: PurchaseProductType[];
 };
