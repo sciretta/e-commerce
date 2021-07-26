@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
-const URI =
-  'mongodb+srv://leo:7zbd5Xjac8Ju46lm@cluster0.yxyiv.mongodb.net/e-commerce?retryWrites=true&w=majority';
+const URI = `mongodb+srv://leo:${process.env.CLUSTER_PASSWORD}@cluster0.yxyiv.mongodb.net/e-commerce?retryWrites=true&w=majority`;
 
 mongoose
   .connect(URI, {
