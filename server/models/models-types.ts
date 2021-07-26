@@ -20,3 +20,16 @@ export interface ProductInterface {
   stock?: number;
   image?: string;
 }
+
+export interface PurchasedProductI {
+  productId?: string;
+  name?: string;
+  count?: number;
+  unitPrice?: number;
+}
+
+export interface PurchaseInterface {
+  id?: string;
+  userId?: string;
+  products?: PurchasedProductI[];
+}

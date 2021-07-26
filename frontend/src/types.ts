@@ -19,6 +19,7 @@ export type FetchType = {
   token?: string;
   user?: UserType;
   products?: ProductType[];
+  successPurchase?: boolean;
   error?: string;
 };
 
@@ -27,5 +28,17 @@ export enum MainViews {
   Management = 'MANAGEMENT',
   User = 'USER',
 }
+
+export type PurchaseProductType = {
+  productId: string;
+  name: string;
+  count: number;
+  unitPrice: number;
+};
+
+export type PurchaseType = {
+  userId: string;
+  products: PurchaseProductType[];
+};
 
 export type ProductCartType = ProductType & { count: number };

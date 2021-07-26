@@ -152,8 +152,6 @@ export const editUser = async (
     return res.status(400).json({ error: 'Not all fields have been entered.' });
   }
 
-  console.log({ direction, firstName, lastName });
-
   let user: UserInterface | null;
   try {
     user = await User.findByIdAndUpdate(

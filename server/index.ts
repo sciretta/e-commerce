@@ -6,13 +6,14 @@ import {
   loginUser,
   getUser,
   editUser,
-} from './controllers/usersController';
+} from './controllers/userControllers';
 import { auth, authAdmin } from './middlewares/auth';
 import {
   createProduct,
   deleteProduct,
   getProducts,
-} from './controllers/productsControllers';
+} from './controllers/productControllers';
+import { newPurchase } from './controllers/purchaseControllers';
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.get('/products', getProducts);
 app.post('/product/create', auth, authAdmin, createProduct);
 
 app.delete('/product/delete', auth, authAdmin, deleteProduct);
+
+app.post('/purchase/new', auth, newPurchase);
 
 app.listen(app.get('port'), () => {
   console.log(`Servidor inicializado en el puerto ${app.get('port')}.`);

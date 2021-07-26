@@ -48,8 +48,6 @@ export const createProduct = async (
     });
   }
 
-  console.log({ productCreated });
-
   return res.status(200).json({
     productCreated: {
       id: productCreated._id,

@@ -1,5 +1,5 @@
 import { API_URL } from '../consts';
-import { FetchType, ProductType, UserType } from './types';
+import { FetchType, ProductType, PurchaseType, UserType } from './types';
 
 export const fetchProducts = (cb: (res: FetchType) => void): void => {
   fetch(`${API_URL}/products`, {
@@ -69,6 +69,23 @@ export const updateUser = (
       'Content-Type': 'application/json',
       'x-auth-token': localStorage.getItem('x-auth-token') || '',
       'user-id': localStorage.getItem('user-id') || '',
+    },
+    body: JSON.stringify({ ...data }),
+  })
+    .then((res) => res.json())
+    .then((res: FetchType) => cb(res));
+};
+
+export const createPurchase = (
+  cb: (res: FetchType) => void,
+  data: PurchaseType,
+) => {
+  fetch(`${API_URL}/purchase/new`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-auth-token': localStorage.getItem('x-auth-token') || '',
     },
     body: JSON.stringify({ ...data }),
   })
