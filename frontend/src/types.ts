@@ -38,7 +38,7 @@ export type PurchaseProductType = {
 };
 
 export type PurchaseType = {
-  _id: string;
+  _id?: string;
   userId: string;
   products: PurchaseProductType[];
 };

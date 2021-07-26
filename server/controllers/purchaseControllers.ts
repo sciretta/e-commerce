@@ -70,9 +70,8 @@ export const newPurchase = async (
     });
   }
 
-  let purchasedDone;
   try {
-    purchasedDone = await Purchase.create({ userId, products });
+    await Purchase.create({ userId, products });
   } catch (err) {
     return res.status(500).json({
       error: err.message,

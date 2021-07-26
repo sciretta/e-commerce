@@ -31,8 +31,6 @@ export default function CartModal({
     });
   }, [products]);
 
-  console.log({ purchase });
-
   const handlePurchase = (): void => {
     if (!purchase) return;
     createPurchase((res) => {
@@ -84,8 +82,9 @@ export default function CartModal({
                     />
                   </div>
                   <div className="flex justify-between items-center flex-col">
-                    <h3 className="text-3xl font-semibold">Price:{p.price}$</h3>
-                    <h3 className="text-3xl font-semibold">
+                    <h3 className="text-3xl font-semibold">{p.name}</h3>
+                    <h3 className="text-2xl font-semibold">Price:{p.price}$</h3>
+                    <h3 className="text-2xl font-semibold">
                       In the cart: {p.count}
                     </h3>
                   </div>
